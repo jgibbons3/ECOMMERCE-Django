@@ -1,0 +1,126 @@
+{% extends "Ecommerce/menu.html" %}
+{% load static %}
+
+{% block content %}
+  <link href="{% static 'vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold text-primary">Product List 
+    <!-- Circle Buttons -->
+    <!-- CreateNewProduct Buttons -->
+    <a title="Create new Product" href="/ProductCreate/" class="btn btn-warning btn-circle btn-sm" value="productCreate">
+      <i class="fas fa-file"></i>
+    </a>  
+    </h6>
+  </div>
+  
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+      
+      <thead>
+          <tr>
+            <th>Brand</th>
+            
+          </tr>
+        </thead>
+      
+      <tbody>
+      {% for nombre in productos_list %} 
+      <tr>
+     <th> 
+      <div class="card mb-3" style="max-width: 1075px;">
+      <div class="row no-gutters">
+      <div class="col-md-2">
+       <img src="{{nombre.photo.url}}" class="card-img" alt="...">
+      </div>
+      <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">
+          Brand: {{nombre.brand}}   
+          <!-- Circle Buttons -->
+          <!-- Invoice Buttons -->
+          {% if nombre.has_invoices %}
+          <a title="Invoices" href="/ProductInvoices/{{nombre.id}}/" value="ProductInvoices" 
+          class="btn btn-success btn-circle btn-sm">
+            <i class="fas fa-receipt"></i>
+          </a>
+          {% endif %}
+          <!-- Delete Button -->
+          <a title="Delete" href="{{nombre.id}}" class="btn btn-danger btn-circle btn-sm" data-toggle="modal" 
+          value="Delete" data-target="#exampleModal-{{nombre.id}}">
+            <i class="fas fa-trash"></i>
+          </a>
+          <!-- Modal Window Delete -->
+           <div class="modal fade" id="exampleModal-{{nombre.id}}" tabindex="-1" 
+           role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Warning</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+              <div class="modal-body">
+              Are you sure you want to delete this product?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <a href="/ProductDelete/{{nombre.id}}/"><button type="button" class="btn btn-primary" 
+                value="Delete">Yes</button></a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End of Modal Window -->
+          
+        <!-- Update Button -->
+        <a title="Update" class="btn btn-info btn-circle btn-sm" 
+            href="/ProductUpdate/{{nombre.id}}/" value="Update">
+          <i class="fas fa-edit"></i>
+        </a>
+          <!-- End of Circle Buttons -->
+        </h5>
+        
+        <p class="card-text"> Name Product: {{nombre.nameproduct}} &nbsp Description: {{nombre.description}} </p>
+        <p class="card-text"><small class="text-muted"> Category: {{nombre.category}} &nbsp Price: ${{nombre.price}} &nbsp Stock: {{nombre.stock}}</small></p>
+      </div>
+      </div>
+      </div>
+       </th>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+   </div>
+  </div>
+</div>                 
+
+ <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+  
+<!-- Bootstrap core JavaScript-->
+  <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+ <!-- Core plugin JavaScript-->
+  <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+
+  <!-- Page level plugins -->
+  <script src="{% static 'vendor/datatables/jquery.dataTables.min.js' %}"></script>
+  <script src="{% static 'vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+
+  <!-- Page level custom scripts -->
+  <script src="{% static 'js/demo/datatables-demo.js' %}"></script>
+
+{% endblock %}
+
+
+

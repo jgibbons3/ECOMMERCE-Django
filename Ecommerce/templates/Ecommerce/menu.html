@@ -1,0 +1,235 @@
+{% load static %}
+<!DOCTYPE html>  
+<html lang="en">
+
+  <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+  <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+<!-- Sidebar -->
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+<li class="nav-item">
+        <a href="/" class="nav-link"><label value="index">Menu</label></a> 
+        <a href="/viewClient/" class="nav-link" href="tables.html"><label value="viewClient">Clientes</label></a> 
+        <a href="/viewProducts/" class="nav-link" href="tables.html"><label value="viewProductos">Productos</label></a> 
+        <a href="/viewInvoice/" class="nav-link" href="tables.html"><label value="viewInvoice">Invoices</label></a>
+</li>
+</ul>
+<!-- End of Sidebar -->
+
+<div id="content-wrapper" class="d-flex flex-column">
+<div id="content">
+  <div class="container-fluid">
+{% block content %}
+
+ <!-- Page Heading -->
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+  <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+  </div>
+
+  <!-- Content Row -->
+  <div class="row">
+
+    <!-- TotalClient Card -->
+  <div class="col-xl-3 col-md-6 mb-4">
+    <div class="card border-left-primary shadow h-100 py-2">
+      <div class="card-body">
+        <div class="row no-gutters align-items-center">
+          <div class="col mr-2">
+            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Clients</div>
+            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ cliente_total.count }}</div>
+          </div>
+          <div class="col-auto">
+            <i class="fas fa-user fa-2x text-gray-300"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+ <!-- TotalEarnings Card -->
+  <div class="col-xl-3 col-md-6 mb-4">
+    <div class="card border-left-success shadow h-100 py-2">
+      <div class="card-body">
+        <div class="row no-gutters align-items-center">
+          <div class="col mr-2">
+            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Total Earnings</div>
+            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_earning }}</div>
+          </div>
+          <div class="col-auto">
+            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- TotalProduct Card -->
+  <div class="col-xl-3 col-md-6 mb-4">
+  <div class="card border-left-info shadow h-100 py-2">
+    <div class="card-body">
+      <div class="row no-gutters align-items-center">
+        <div class="col mr-2">
+          <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Total Products</div>
+          <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_products.count }}</div>
+        </div>
+        <div class="col-auto">
+          <i class="fas fa-calendar fa-2x text-gray-300"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Total Invoices Card -->
+<div class="col-xl-3 col-md-6 mb-4">
+  <div class="card border-left-warning shadow h-100 py-2">
+    <div class="card-body">
+      <div class="row no-gutters align-items-center">
+        <div class="col mr-2">
+          <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Invoices</div>
+          <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_invoices.count }}</div>
+        </div>
+        <div class="col-auto">
+          <i class="fas fa-receipt fa-2x text-gray-300"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<!-- Content Row -->
+<div class="row">  
+  <!-- Area Chart -->
+  <div class="col-xl-8 col-lg-7">
+    <div class="card shadow mb-4">
+  <!-- Card Body -->
+  <div class="card-body">
+    <div class="chart-area" id="container">
+<script src="https://code.highcharts.com/highcharts.src.js"></script>
+
+<script>
+  Highcharts.chart('container', {
+      chart: {
+          type: 'line'
+      },
+      title: {
+          text: 'Earnings per day'
+      },
+      xAxis: {
+          categories: [
+            {% for entry in dataset %}'{{ entry.day }}'{% if not forloop.last %}, {% endif %}{% endfor %}
+          ]
+      },
+      series: [{
+          name: 'Earnings: $',
+          data: [
+            {% for entry in dataset %}{{ entry.available }}{% if not forloop.last %}, {% endif %}{% endfor %}
+          ],
+          
+      }], 
+         
+  });
+</script>
+
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- Title Chart TOP 5-->
+<div class="col-xl-4 col-lg-5">
+<div class="card shadow mb-4">
+<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+  <h6 class="m-0 font-weight-bold text-primary"> 
+  <button type="button" class="btn btn-link" id="buttonClient">Top 5 Clients</button>
+  <button type="button" class="btn btn-link" id="buttonProduct">Top 5 Products</button>
+  </h6>
+</div>
+
+<!-- Card Body TOP 5-->
+  <div class="card-body">
+  <div class="chart-pie pt-1 pb-1">
+  <div id="text">
+  </div>
+  </div>
+  </div>
+</div>
+</div>
+
+
+<script
+    src="https://code.jquery.com/jquery-3.4.1.js"
+    integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+    crossorigin="anonymous"></script>
+<script>
+$(document).ready(function() {
+    function loadFiveclients() {
+        $.get("/TopFiveClients", function(topFiveClients){
+          $( "#text" ).html( topFiveClients );
+        });
+    }
+
+    loadFiveclients()
+    $("#buttonClient").click(loadFiveclients);
+
+    $("#buttonProduct").click(loadFiveProducts);
+    function loadFiveProducts() {
+        $.get("/TopFiveProducts", function(topFiveProducts){
+          $( "#text" ).html( topFiveProducts );
+        });
+    
+    }
+})
+</script>
+
+
+<!-- Title Chart LowSotckProducts-->
+<div class="col-xl-4 col-lg-5">
+<div class="card shadow mb-4">
+<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+  <h6 class="m-0 font-weight-bold text-primary"> Products with low stock </h6>
+</div>
+<!-- Card Body LowStockProducts-->
+  <div class="card-body">
+  <div class="chart-pie pt-1 pb-1">
+    <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Product Name</th>
+        <th scope="col">Stock</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for stockAvailable in lowStock %} 
+      <tr> 
+        <td> {{stockAvailable.products}} </td>
+        <td> {{stockAvailable.available}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+    </table>
+  
+  </div>
+  </div>
+  </div>
+</div>
+
+</div>
+
+{% endblock %}
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</body>
+</html>

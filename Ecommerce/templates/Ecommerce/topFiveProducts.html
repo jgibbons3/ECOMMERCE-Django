@@ -1,0 +1,16 @@
+  <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Product Name</th>
+      <th scope="col">Items Sold</th>
+    </tr>
+  </thead>
+    <tbody>
+    {% for topproducts in topFive %} 
+    <tr> 
+      <td> {{topproducts.a}} </td>
+      <td> {{topproducts.available}}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+ </table>

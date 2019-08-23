@@ -1,0 +1,62 @@
+{% extends "Ecommerce/menu.html" %}
+
+{% block content %}
+    {% load static %}
+    <link href="{% static 'vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+
+<div class="card shadow mb-4">
+  <div class="card-header py-3">
+    <h6 class="m-0 font-weight-bold text-primary">Product Form</h6>
+  </div>
+  <form method="POST" enctype="multipart/form-data">  {% csrf_token %}
+  <div class="card-body"> 
+    <div class="form-group">
+        <label for="recipient-name" class="col-form-label">Image:</label><br>
+        {{ form.photo|default_if_none:'' }}
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-5">
+        <label for="recipient-name" class="col-form-label">Brand:</label>
+        <input name="brand" type="text" class="form-control" id="recipient-name" 
+        value="{{ form.brand.value|default_if_none:'' }}">
+        </div>   
+        <div class="form-group col-md-7">
+        <label for="recipient-name" class="col-form-label">Name Product:</label>
+        <input name="nameproduct" type="text" class="form-control" id="recipient-name" 
+        value="{{ form.nameproduct.value|default_if_none:'' }}">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="recipient-name" class="col-form-label">Description:</label>
+        <input name="description" type="text" class="form-control" id="recipient-name" 
+        value="{{ form.description.value|default_if_none:'' }}">
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-8">
+        <label for="recipient-name" class="col-form-label">Category:</label>
+        <input name="category" type="text" class="form-control" id="recipient-name" 
+        value="{{ form.description.value|default_if_none:'' }}">
+        </div>
+        <div class="form-group col-md-2">
+        <label for="recipient-name" class="col-form-label">Price: $</label>
+        <input name="price" type="text" class="form-control" id="recipient-name" 
+        value="{{ form.price.value|default_if_none:'' }}">
+        </div>
+        <div class="form-group col-md-2">
+        <label for="recipient-name" class="col-form-label">Stock:</label>
+        <input name="stock" type="text" class="form-control" id="recipient-name" 
+        value="{{ form.stock.value|default_if_none:'' }}">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href='/viewProducts/'><button type="button" class="btn btn-secondary" 
+        data-dismiss="modal" value="vieProducts">Cancel</button></a>
+        <a><button type="submit" class="btn btn-primary" value="productCreate">Accept</button></a>
+    </div>
+  </div>
+  </form>
+</div>
+
+
+
+{% endblock %}

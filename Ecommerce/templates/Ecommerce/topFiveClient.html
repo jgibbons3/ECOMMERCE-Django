@@ -1,0 +1,17 @@
+  
+  <table class="table" id="text">
+  <thead>
+    <tr>
+      <th scope="col">Client Name</th>
+      <th scope="col">$</th>
+    </tr>
+  </thead>
+    <tbody>
+    {% for topclient in topFiveClients %} 
+    <tr> 
+      <td> {{topclient.a}} </td>
+      <td> {{topclient.available}}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+ </table>
