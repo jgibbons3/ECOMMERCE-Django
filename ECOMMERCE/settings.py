@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'Ecommerce'
 ]
 
-MEDIA_ROOT = '/home/jessica/projects/django/ECOMMERCE'
+MEDIA_ROOT = BASE_DIR
 MEDIA_URL = '/uploads/'
 
 
@@ -59,7 +59,7 @@ ROOT_URLCONF = 'ECOMMERCE.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['./templates',],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -123,3 +123,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Redirect to home URL after login (Default redirects to /accounts/profile/)
+LOGIN_REDIRECT_URL = '/my_view/'
+
+AUTH_USER_MODEL = 'Ecommerce.Clientes'

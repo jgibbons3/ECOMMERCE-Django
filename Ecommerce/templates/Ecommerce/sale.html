@@ -1,0 +1,124 @@
+{% load static %}
+<!DOCTYPE html>  
+<html lang="en">
+
+  <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+  <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+
+<body id="page-top">
+ <div id="wrapper">
+ <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+      <!-- Main Content -->
+      <div id="content">
+    <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+  <!-- Nav Item - UserName -->
+    {% if user.is_authenticated %}
+        <span class="mr-2 d-none d-lg-inline text-gray-600 medium">
+            Welcome {{ user.get_username }}
+        </span>
+        <div class="col-sm-9">
+        <a class="nav-link text-gray-600" href="{% url 'logout'%}?next={{request.path}}">
+        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+        <span>Logout</span></a>
+        </li> 
+        </div>
+    {% else %}
+        <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>   
+    {% endif %} 
+
+        <a title="Buy" class="btn btn-info btn-circle btn-md" 
+        href=" " value="Buy">
+        <i class="fas fa-dolly"></i>
+        </a>
+
+</div>
+</div>
+</div>
+{% block content %}
+<!-- Begin Page Content -->
+<link href="{% static 'vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
+
+<div class="container-fluid">
+    <h5 class="m-0 font-weight-bold text-primary">Product List </h5>
+</div>
+
+
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+      
+      <thead>
+          <tr>
+            <th>Brand</th>
+            
+          </tr>
+        </thead>
+      
+      <tbody>
+      {% for nombre in productos_list %} 
+      <tr>
+     <th> 
+      <div class="card mb-3" style="max-width: 1075px;">
+      <div class="row no-gutters">
+      <div class="col-md-2">
+       <img src="{{nombre.photo.url}}" class="card-img" alt="...">
+      </div>
+      <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">
+          Brand: {{nombre.brand}}   
+          <!-- Circle Buy Buttons -->
+        <a title="Buy" class="btn btn-info btn-circle btn-md" 
+            href=" " value="Buy">
+          <i class="fas fa-dolly"></i>
+        </a>
+          <!-- End of Circle Buttons -->
+        </h5>
+        
+        <p class="card-text"> Name Product: {{nombre.nameproduct}} &nbsp Description: {{nombre.description}} </p>
+        <p class="card-text"><small class="text-muted"> Category: {{nombre.category}} &nbsp Price: ${{nombre.price}} &nbsp Stock: {{nombre.stock}}</small></p>
+      </div>
+      </div>
+      </div>
+       </th>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+   </div>
+  </div>
+</div>                 
+
+ <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+  
+<!-- Bootstrap core JavaScript-->
+  <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+ <!-- Core plugin JavaScript-->
+  <script src="{% static 'vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="{% static 'js/sb-admin-2.min.js' %}"></script>
+
+  <!-- Page level plugins -->
+  <script src="{% static 'vendor/datatables/jquery.dataTables.min.js' %}"></script>
+  <script src="{% static 'vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+
+  <!-- Page level custom scripts -->
+  <script src="{% static 'js/demo/datatables-demo.js' %}"></script>
+
+
+{% endblock %}
+
+
+
+</div>
+</body>
+</html>

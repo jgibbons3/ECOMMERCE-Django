@@ -1,5 +1,5 @@
 from django.urls import path
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
 from . import views
 from django.conf import settings
@@ -16,6 +16,12 @@ urlpatterns = [
     path('ClientInvoices/<id>/', views.ClientInvoices, name='ClientInvoices'),
     path('TopFiveClients', views.TopFiveClients, name='TopFiveClients'),
     path('TopFiveProducts', views.TopFiveProducts, name='TopFiveProducts'),
+    path('Signup', views.Signup, name='Signup'),
+    path('my_view/', views.my_view, name='my_view'),
+    path('my_view/Sale/', views.Sale, name='Sale'),
+    path('accounts/', include('django.contrib.auth.urls')),
     path('', views.totalClientes, name='index'),
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+

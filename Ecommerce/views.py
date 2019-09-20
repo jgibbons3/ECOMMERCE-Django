@@ -7,11 +7,49 @@ from django.http import JsonResponse
 from django.template.loader import render_to_string
 from django.db.models import Sum, Count
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login, authenticate
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
+from .form import UserCreationForm
+
+#Sale user view
+@login_required
+def Sale(request):
+    productos_list=Productos.objects.all()
+    return render(request, 'Ecommerce/sale.html', {'productos_list': productos_list})
+
+#Login
+def my_view(request):
+    if request.user.is_staff:
+        return redirect('/')
+    else:
+        return redirect('Sale/')
+
+
+#Signup
+def Signup(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('accounts/login/')
+        else:
+            print(form.errors)
+    else:
+        form = UserCreationForm()
+    return render(request, 'Ecommerce/signup.html', {'form': form})
+
 
 #Menu
 @login_required
 def totalClientes(request):
-    cliente_total=Clientes.objects.all()
+    cliente_total=Clientes.objects.filter(is_staff=False)
     total_earning=Invoice.objects.all().aggregate(Sum('total')).get('total__sum', 0.00)
     total_invoices=Invoice.objects.all()
     total_products=Productos.objects.all()
@@ -48,14 +86,14 @@ def TopFiveClients(request):
 #Client List
 @login_required
 def ClientesList(request):
-    cliente_list=Clientes.objects.all()
+    cliente_list=Clientes.objects.filter(is_staff=False)
     return render(request, 'Ecommerce/listaClientes.html', {'cliente_list': cliente_list})
 
 
 class PostsClientes(ModelForm):
     class Meta:
         modelClientes = Clientes
-        fieldsClientes = ['name', 'apellido', 'phone', 'email', 'address']
+        fieldsClientes = ['user', 'first_name', 'last_name', 'phone', 'email', 'address']
 
 #Invoices per client
 @login_required
