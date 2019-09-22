@@ -17,7 +17,7 @@ from .form import UserCreationForm
 #Sale user view
 @login_required
 def Sale(request):
-    productos_list=Productos.objects.all()
+    productos_list = Productos.objects.all()
     return render(request, 'Ecommerce/sale.html', {'productos_list': productos_list})
 
 #Login

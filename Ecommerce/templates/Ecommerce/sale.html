@@ -31,7 +31,7 @@
 
         <a title="Buy" class="btn btn-info btn-circle btn-md" 
         href=" " value="Buy">
-        <i class="fas fa-dolly"></i>
+        <i class="fas fa-shopping-cart"></i>
         </a>
 
 </div>
@@ -45,18 +45,14 @@
     <h5 class="m-0 font-weight-bold text-primary">Product List </h5>
 </div>
 
-
   <div class="card-body">
     <div class="table-responsive">
-      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-      
+      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">      
       <thead>
           <tr>
-            <th>Brand</th>
-            
+            <th>Brand</th>            
           </tr>
-        </thead>
-      
+        </thead>      
       <tbody>
       {% for nombre in productos_list %} 
       <tr>
@@ -73,13 +69,14 @@
           <!-- Circle Buy Buttons -->
         <a title="Buy" class="btn btn-info btn-circle btn-md" 
             href=" " value="Buy">
-          <i class="fas fa-dolly"></i>
+          <i class="fas fa-shopping-cart"></i>
         </a>
           <!-- End of Circle Buttons -->
         </h5>
         
         <p class="card-text"> Name Product: {{nombre.nameproduct}} &nbsp Description: {{nombre.description}} </p>
-        <p class="card-text"><small class="text-muted"> Category: {{nombre.category}} &nbsp Price: ${{nombre.price}} &nbsp Stock: {{nombre.stock}}</small></p>
+        <p class="card-text"><small class="text-muted"> Category: {{nombre.category}} 
+        &nbsp Price: ${{nombre.price}} &nbsp Stock: {{nombre.stock}}</small></p> 
       </div>
       </div>
       </div>
